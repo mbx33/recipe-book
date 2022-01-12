@@ -36,8 +36,22 @@
         "Tomatoes",
         "Olive Oil"
       ],
-      "method": "Add everything in a bowl and mix",
+      "method": "Mix everything together in bowl and enjoy!",
       "cookingTime": "5 minutes"
+    },
+    {
+      "title": "Pizza",
+      "ingredients": ["something", "pepper"],
+      "method": "blah blah",
+      "cookingTime": "33 minutes",
+      "id": "8zLz_4J"
+    },
+    {
+      "title": "Borsh",
+      "ingredients": ["2 beets", "onion", "jdfkdsj", "jdfjds"],
+      "method": "jfjlkdsjfsdjdjflkjsdfljdfjklfjdkfjkdjfsdjfsdfsfkljdffsdjfsdlkf",
+      "cookingTime": "30 minutes",
+      "id": "5gsxAgz"
     }
   ]
 }
