@@ -1,6 +1,7 @@
-import { useState, useRef, useEffect } from "react";
-import { useFetch } from "../../hooks/useFetch";
+import { useState, useRef } from "react";
+// import { useFetch } from "../../hooks/useFetch";
 import { useNavigate } from "react-router-dom";
+import { projectFirestore } from "../../firebase/config";
 
 // styles //
 import "./Create.css";
@@ -14,42 +15,48 @@ function Create() {
   const ingredientInput = useRef(null);
   const history = useNavigate();
 
-  const { postData, data, error } = useFetch(
-    "http://localhost:3000/recipes",
-    "POST"
-  );
+  // const { postData, data, error } = useFetch(
+  //   "http://localhost:3000/recipes",
+  //   "POST"
+  // );
 
-  const reset = () => {
-    setTitle("");
-    setMethod("");
-    setCookingTime("");
-    setIngredients([]);
-  };
+  // const reset = () => {
+  //   setTitle("");
+  //   setMethod("");
+  //   setCookingTime("");
+  //   setIngredients([]);
+  // };
 
   // redirect the user after the form is submitted //
-  useEffect(() => {
-    if (error) {
-      //redirect
-      setTimeout(() => {
-        history("/create");
-      }, 2000);
-    }
-    if (data) {
-      setTimeout(() => {
-        history("/");
-      }, 1000);
-    }
-  }, [error, data, history]);
+  // useEffect(() => {
+  //   if (error) {
+  //     //redirect
+  //     setTimeout(() => {
+  //       history("/create");
+  //     }, 2000);
+  //   }
+  //   if (data) {
+  //     setTimeout(() => {
+  //       history("/");
+  //     }, 1000);
+  //   }
+  // }, [error, data, history]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    postData({
+    const doc = {
       title,
       ingredients,
       method,
       cookingTime: cookingTime + " minutes",
-    });
-    reset();
+    };
+
+    try {
+      await projectFirestore.collection("recipes").add(doc);
+      history("/");
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const handleAdd = (e) => {

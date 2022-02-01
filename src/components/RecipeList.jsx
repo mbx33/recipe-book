@@ -1,5 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import Trashcan from "../assets/trashcan.svg";
+import { projectFirestore } from "../firebase/config";
 
 //styles
 import "./RecipeList.css";
@@ -8,6 +10,10 @@ function RecipeList({ recipes }) {
   if (recipes.length === 0) {
     return <div className="error">No Recipes found...</div>;
   }
+
+  const handleClick = (id) => {
+    projectFirestore.collection("recipes").doc(id).delete();
+  };
 
   return (
     <div className="recipe-list">
@@ -20,6 +26,12 @@ function RecipeList({ recipes }) {
             {recipe.method.substring(0, 100)}...
           </div>
           <NavLink to={`/recipes/${recipe.id}`}>Cook This</NavLink>
+          <img
+            className="delete"
+            alt="trash icon"
+            src={Trashcan}
+            onClick={() => handleClick(recipe.id)}
+          />
         </div>
       ))}
     </div>
