@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 // import { useFetch } from "../../hooks/useFetch";
 import { useParams } from "react-router-dom";
+import { useTheme } from "../../context/ThemeContext";
 import { projectFirestore } from "../../firebase/config";
 
 // styles //
@@ -12,6 +13,7 @@ function Recipe() {
   const [recipes, setRecipes] = useState(null);
   const [pending, setPending] = useState(false);
   const [error, setError] = useState(false);
+  const { mode } = useTheme();
 
   const history = useNavigate();
 
@@ -37,11 +39,12 @@ function Recipe() {
     return () => unsub();
   }, [id, history]);
 
-  const handleClick = () => {
-    projectFirestore.collection("recipes").doc(id).update({
-      title: "Spaghetti",
-    });
-  };
+  // function to update a recipe, but is set to spaghetti for now.
+  // const handleClick = () => {
+  //   projectFirestore.collection("recipes").doc(id).update({
+  //     title: "Spaghetti",
+  //   });
+  // };
 
   // const url = "http://localhost:3000/recipes/" + id;
   // const { data: recipes, isPending, error } = useFetch(url);
@@ -57,25 +60,25 @@ function Recipe() {
   // }, [error, history]);
 
   return (
-    <div className="recipe">
-      {error && <p className="error">{error}</p>}
-      {pending && <p className="loading">Loading...</p>}
-      {recipes && (
-        <>
-          <h2 className="page-title">{recipes.title}</h2>
-          <p>{recipes.cookingTime} to cook.</p>
-          <br />
-          <p>Ingredients:</p>
-          <ul>
-            {recipes.ingredients.map((ing) => (
-              <li key={ing}>{ing}</li>
-            ))}
-          </ul>
-          <p className="method">{recipes.method}</p>
-          <button onClick={handleClick}>Update Me</button>
-        </>
-      )}
-    </div>
+		<div className={`recipe ${mode}`}>
+			{error && <p className="error">{error}</p>}
+			{pending && <p className="loading">Loading...</p>}
+			{recipes && (
+				<>
+					<h2 className={`page-title ${mode}`}>{recipes.title}</h2>
+					<p>{recipes.cookingTime} to cook.</p>
+					<br />
+					<p>Ingredients:</p>
+					<ul>
+						{recipes.ingredients.map((ing) => (
+							<li key={ing}>{ing}</li>
+						))}
+					</ul>
+					<p className="method">{recipes.method}</p>
+					{/* <button onClick={handleClick}>Update Me</button> */}
+				</>
+			)}
+		</div>
   );
 }
 
