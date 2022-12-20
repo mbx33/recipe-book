@@ -30,6 +30,7 @@ function RecipeList({ recipes }) {
 					</div>
 					<NavLink
 						to={`/recipes/${recipe.id}`}
+						className="recipe-links"
 						style={{ backgroundColor: color, color: '#e4e4e4' }}
 					>
 						Cook This
